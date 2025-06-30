@@ -92,7 +92,7 @@ function setupVideoPlayer(streamUrl, channelName) {
                         switch(data.type) {
                             case Hls.ErrorTypes.NETWORK_ERROR:
                                 console.log("خطأ في الشبكة، محاولة إعادة التحميل...");
-                                tryWithCorsProxy(streamUrl, channelName);
+                                handleVideoError("خطأ في تحميل القناة - قد تكون المشكلة في الخادم أو إعدادات CORS");
                                 break;
                             case Hls.ErrorTypes.MEDIA_ERROR:
                                 console.log("خطأ في الوسائط، محاولة الاستعادة...");
@@ -149,8 +149,8 @@ function setupVideoPlayer(streamUrl, channelName) {
         });
         
     } catch (error) {
-        console.error('خطأ في إعداد المشغل:', error);
-        handleVideoError('خطأ في إعداد مشغل الفيديو');
+        console.error("خطأ في إعداد المشغل:", error);
+        handleVideoError("خطأ في إعداد مشغل الفيديو");
     }
 }
 
@@ -178,7 +178,7 @@ function tryWithCorsProxy(originalUrl, channelName) {
             .then(response => {
                 if (response.ok) {
                     console.log('CORS proxy يعمل، محاولة تشغيل الفيديو...');
-                    setupVideoPlayerWithProxy(proxyUrl, channelName);
+                    setupVideoPlayer(proxyUrl, channelName); // Use the main setup function
                 } else {
                     proxyIndex++;
                     tryNextProxy();
@@ -192,52 +192,6 @@ function tryWithCorsProxy(originalUrl, channelName) {
     }
     
     tryNextProxy();
-}
-
-// إعداد مشغل الفيديو مع CORS proxy
-function setupVideoPlayerWithProxy(proxyUrl, channelName) {
-    try {
-        if (currentPlayer) {
-            currentPlayer.dispose();
-            currentPlayer = null;
-        }
-        
-        if (currentHls) {
-            currentHls.destroy();
-            currentHls = null;
-        }
-        
-        const videoElement = document.getElementById('videoPlayer');
-        
-        currentPlayer = videojs(videoElement, {
-            controls: true,
-            responsive: true,
-            fluid: true
-        });
-        
-        if (Hls.isSupported()) {
-            currentHls = new Hls();
-            currentHls.loadSource(proxyUrl);
-            currentHls.attachMedia(videoElement);
-            
-            currentHls.on(Hls.Events.MANIFEST_PARSED, function() {
-                hideLoadingSpinner();
-                showVideoPlayer();
-                currentPlayer.play().catch(e => {
-                    console.log('تشغيل تلقائي غير مسموح:', e);
-                });
-            });
-            
-            currentHls.on(Hls.Events.ERROR, function(event, data) {
-                console.error('خطأ HLS مع proxy:', data);
-                handleVideoError('فشل في تشغيل القناة حتى مع CORS proxy');
-            });
-        }
-        
-    } catch (error) {
-        console.error('خطأ في إعداد المشغل مع proxy:', error);
-        handleVideoError('خطأ في إعداد مشغل الفيديو مع proxy');
-    }
 }
 
 // إخفاء شاشة التحميل وإظهار المشغل
