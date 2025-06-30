@@ -21,8 +21,7 @@ const channels = [
         name: "قناة الأطفال",
         description: "برامج تعليمية وترفيهية للأطفال",
         thumbnail: "https://via.placeholder.com/300x200/dc2626/ffffff?text=قناة+الأطفال",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
-        category: "أطفال"
+        streamUrl: "http://mxbfdjh.mlyan.xyz/live/1480303366/NQ4SDHRE/59.m3u8",
     },
     {
         id: 4,
