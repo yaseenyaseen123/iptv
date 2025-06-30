@@ -13,7 +13,7 @@ const channels = [
         name: "قناة الرياضة",
         description: "أحدث الأخبار الرياضية",
         thumbnail: "https://via.placeholder.com/300x200/ef4444/ffffff?text=قناة+الرياضة",
-        streamUrl: "http://mxbfdjh.mlyan.xyz/live/1480303366/NQ4SDHRE/59.ts",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
         category: "رياضية"
     },
     {
