@@ -112,7 +112,35 @@ function setupVideoPlayer(streamUrl, channelName) {
                 const hls = new Hls({
                     enableWorker: true,
                     lowLatencyMode: true,
-                    backBufferLength: 90
+                    backBufferLength: 90,
+                    // إعدادات إضافية لمعالجة CORS
+                    xhrSetup: function(xhr, url) {
+                        // محاولة إضافة headers للـ CORS
+                        xhr.withCredentials = false;
+                    }
+                });
+                
+                // معالجة أخطاء HLS بشكل أفضل
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    console.error('خطأ HLS:', data);
+                    
+                    if (data.fatal) {
+                        switch(data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.log('خطأ في الشبكة، محاولة إعادة التحميل...');
+                                // محاولة استخدام CORS proxy
+                                tryWithCorsProxy(streamUrl, channelName);
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.log('خطأ في الوسائط، محاولة الاستعادة...');
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                console.log('خطأ غير قابل للاستعادة');
+                                handleVideoError('خطأ في تحميل القناة - قد تكون المشكلة في الخادم أو إعدادات CORS');
+                                break;
+                        }
+                    }
                 });
                 
                 hls.loadSource(streamUrl);
@@ -124,11 +152,6 @@ function setupVideoPlayer(streamUrl, channelName) {
                     currentPlayer.play().catch(e => {
                         console.log('تشغيل تلقائي غير مسموح:', e);
                     });
-                });
-                
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    console.error('خطأ HLS:', data);
-                    handleVideoError('خطأ في تحميل القناة');
                 });
                 
             } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
@@ -169,10 +192,121 @@ function setupVideoPlayer(streamUrl, channelName) {
     }
 }
 
+// محاولة استخدام CORS proxy
+function tryWithCorsProxy(originalUrl, channelName) {
+    const corsProxies = [
+        'https://cors-anywhere.herokuapp.com/',
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?'
+    ];
+    
+    let proxyIndex = 0;
+    
+    function tryNextProxy() {
+        if (proxyIndex >= corsProxies.length) {
+            handleVideoError('فشل في تحميل القناة - جميع محاولات CORS proxy فشلت. قد تحتاج لاستخدام VPN أو رابط آخر.');
+            return;
+        }
+        
+        const proxyUrl = corsProxies[proxyIndex] + encodeURIComponent(originalUrl);
+        console.log(`محاولة CORS proxy ${proxyIndex + 1}:`, proxyUrl);
+        
+        // محاولة تحميل الرابط مع proxy
+        fetch(proxyUrl, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    console.log('CORS proxy يعمل، محاولة تشغيل الفيديو...');
+                    setupVideoPlayerWithProxy(proxyUrl, channelName);
+                } else {
+                    proxyIndex++;
+                    tryNextProxy();
+                }
+            })
+            .catch(error => {
+                console.log(`CORS proxy ${proxyIndex + 1} فشل:`, error);
+                proxyIndex++;
+                tryNextProxy();
+            });
+    }
+    
+    tryNextProxy();
+}
+
+// إعداد مشغل الفيديو مع CORS proxy
+function setupVideoPlayerWithProxy(proxyUrl, channelName) {
+    try {
+        if (currentPlayer) {
+            currentPlayer.dispose();
+            currentPlayer = null;
+        }
+        
+        const videoElement = document.getElementById('videoPlayer');
+        
+        currentPlayer = videojs(videoElement, {
+            controls: true,
+            responsive: true,
+            fluid: true
+        });
+        
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(proxyUrl);
+            hls.attachMedia(videoElement);
+            
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                hideLoadingSpinner();
+                showModal();
+                currentPlayer.play().catch(e => {
+                    console.log('تشغيل تلقائي غير مسموح:', e);
+                });
+            });
+            
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                console.error('خطأ HLS مع proxy:', data);
+                handleVideoError('فشل في تشغيل القناة حتى مع CORS proxy');
+            });
+        }
+        
+    } catch (error) {
+        console.error('خطأ في إعداد المشغل مع proxy:', error);
+        handleVideoError('خطأ في إعداد مشغل الفيديو مع proxy');
+    }
+}
+
 // معالجة أخطاء الفيديو
 function handleVideoError(message) {
     hideLoadingSpinner();
-    showError(message);
+    
+    // إنشاء رسالة خطأ مخصصة
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.innerHTML = `
+        <div class="error-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>خطأ في تشغيل القناة</h3>
+            <p>${message}</p>
+            <div class="error-suggestions">
+                <h4>اقتراحات للحل:</h4>
+                <ul>
+                    <li>تأكد من اتصال الإنترنت</li>
+                    <li>جرب استخدام VPN</li>
+                    <li>تأكد من صحة رابط البث</li>
+                    <li>جرب قناة أخرى</li>
+                </ul>
+            </div>
+            <button onclick="hideErrorMessage()" class="error-close-btn">حسناً</button>
+        </div>
+    `;
+    
+    document.body.appendChild(errorDiv);
+}
+
+// إخفاء رسالة الخطأ
+function hideErrorMessage() {
+    const errorDiv = document.querySelector('.error-message');
+    if (errorDiv) {
+        errorDiv.remove();
+    }
 }
 
 // عرض النافذة المنبثقة

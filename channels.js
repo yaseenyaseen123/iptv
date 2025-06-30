@@ -5,7 +5,7 @@ const channels = [
         name: "القناة الأولى",
         description: "قناة إخبارية شاملة",
         thumbnail: "https://via.placeholder.com/300x200/4f46e5/ffffff?text=القناة+الأولى",
-        streamUrl: "https://cdn.live.easybroadcast.io:443/abr_corp/73_arryadia_k2tgcj0/corp/73_arryadia_k2tgcj0_480p/chunks_dvr.m3u8",
+        streamUrl: "http://platform.topuphost.com:8577/live/alfajr.stream/playlist.m3u8",
         category: "إخبارية"
     },
     {
