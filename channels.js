@@ -5,7 +5,7 @@ const channels = [
         name: "القناة الأولى",
         description: "قناة إخبارية شاملة",
         thumbnail: "https://via.placeholder.com/300x200/4f46e5/ffffff?text=القناة+الأولى",
-        streamUrl: "http://platform.topuphost.com:8577/live/alfajr.stream/playlist.m3u8",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
         category: "إخبارية"
     },
     {
@@ -13,7 +13,7 @@ const channels = [
         name: "قناة الرياضة",
         description: "أحدث الأخبار الرياضية",
         thumbnail: "https://via.placeholder.com/300x200/ef4444/ffffff?text=قناة+الرياضة",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
         category: "رياضية"
     },
     {
@@ -21,7 +21,8 @@ const channels = [
         name: "قناة الأطفال",
         description: "برامج تعليمية وترفيهية للأطفال",
         thumbnail: "https://via.placeholder.com/300x200/dc2626/ffffff?text=قناة+الأطفال",
-        streamUrl: "http://mxbfdjh.mlyan.xyz/live/1480303366/NQ4SDHRE/59.m3u8",
+        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        category: "أطفال"
     },
     {
         id: 4,
@@ -85,4 +86,5 @@ const channels = [
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = channels;
 }
+
 
