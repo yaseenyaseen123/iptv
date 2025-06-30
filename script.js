@@ -71,13 +71,16 @@ function playChannel(channelId) {
         return;
     }
     
-    showLoadingSpinner();
+    // إنشاء URL للصفحة الجديدة مع معاملات القناة
+    const playerUrl = new URL('player.html', window.location.href);
+    playerUrl.searchParams.set('id', channel.id);
+    playerUrl.searchParams.set('name', channel.name);
+    playerUrl.searchParams.set('description', channel.description);
+    playerUrl.searchParams.set('streamUrl', channel.streamUrl);
+    playerUrl.searchParams.set('category', channel.category);
     
-    // تحديث عنوان النافذة المنبثقة
-    document.getElementById('modalTitle').textContent = channel.name;
-    
-    // إعداد مشغل الفيديو
-    setupVideoPlayer(channel.streamUrl, channel.name);
+    // فتح الصفحة في نافذة جديدة
+    window.open(playerUrl.toString(), '_blank');
 }
 
 // إعداد مشغل الفيديو
