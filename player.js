@@ -74,8 +74,8 @@ function setupVideoPlayer(streamUrl, channelName) {
             }
         });
         
-        // معالجة روابط HLS
-        if (streamUrl.includes('.m3u8')) {
+        // معالجة روابط HLS و TS
+        if (streamUrl.includes(".m3u8")) {
             if (Hls.isSupported()) {
                 currentHls = new Hls({
                     enableWorker: true,
@@ -86,23 +86,21 @@ function setupVideoPlayer(streamUrl, channelName) {
                     }
                 });
                 
-                // معالجة أخطاء HLS
                 currentHls.on(Hls.Events.ERROR, function(event, data) {
-                    console.error('خطأ HLS:', data);
-                    
+                    console.error("خطأ HLS:", data);
                     if (data.fatal) {
                         switch(data.type) {
                             case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.log('خطأ في الشبكة، محاولة إعادة التحميل...');
+                                console.log("خطأ في الشبكة، محاولة إعادة التحميل...");
                                 tryWithCorsProxy(streamUrl, channelName);
                                 break;
                             case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.log('خطأ في الوسائط، محاولة الاستعادة...');
+                                console.log("خطأ في الوسائط، محاولة الاستعادة...");
                                 currentHls.recoverMediaError();
                                 break;
                             default:
-                                console.log('خطأ غير قابل للاستعادة');
-                                handleVideoError('خطأ في تحميل القناة - قد تكون المشكلة في الخادم أو إعدادات CORS');
+                                console.log("خطأ غير قابل للاستعادة");
+                                handleVideoError("خطأ في تحميل القناة - قد تكون المشكلة في الخادم أو إعدادات CORS");
                                 break;
                         }
                     }
@@ -115,40 +113,39 @@ function setupVideoPlayer(streamUrl, channelName) {
                     hideLoadingSpinner();
                     showVideoPlayer();
                     currentPlayer.play().catch(e => {
-                        console.log('تشغيل تلقائي غير مسموح:', e);
+                        console.log("تشغيل تلقائي غير مسموح:", e);
                     });
                 });
                 
-            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                // دعم Safari الأصلي للـ HLS
+            } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
                 videoElement.src = streamUrl;
                 hideLoadingSpinner();
                 showVideoPlayer();
             } else {
-                handleVideoError('المتصفح لا يدعم تشغيل هذا النوع من الملفات');
+                handleVideoError("المتصفح لا يدعم تشغيل هذا النوع من الملفات");
             }
-        } else {
-            // روابط فيديو عادية
+        } else if (streamUrl.includes(".ts") || streamUrl.includes(".mp4")) {
             currentPlayer.src({
                 src: streamUrl,
-                type: 'video/mp4'
+                type: streamUrl.includes(".ts") ? "video/mp2t" : "video/mp4"
             });
-            
             hideLoadingSpinner();
             showVideoPlayer();
+        } else {
+            handleVideoError("صيغة رابط البث غير مدعومة");
         }
         
-        // معالجة الأحداث
-        currentPlayer.on('error', function() {
-            handleVideoError('خطأ في تشغيل القناة');
+        // معالجة الأحداث العامة للمشغل
+        currentPlayer.on("error", function() {
+            handleVideoError("خطأ في تشغيل القناة");
         });
         
-        currentPlayer.on('loadstart', function() {
-            console.log('بدء تحميل القناة:', channelName);
+        currentPlayer.on("loadstart", function() {
+            console.log("بدء تحميل القناة:", channelName);
         });
         
-        currentPlayer.on('canplay', function() {
-            console.log('القناة جاهزة للتشغيل:', channelName);
+        currentPlayer.on("canplay", function() {
+            console.log("القناة جاهزة للتشغيل:", channelName);
         });
         
     } catch (error) {
