@@ -13,7 +13,7 @@ const channels = [
         name: "قناة الرياضة",
         description: "أحدث الأخبار الرياضية",
         thumbnail: "https://via.placeholder.com/300x200/ef4444/ffffff?text=قناة+الرياضة",
-        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
         category: "رياضية"
     },
     {
