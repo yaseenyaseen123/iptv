@@ -5,7 +5,7 @@ const channels = [
         name: "القناة الأولى",
         description: "قناة إخبارية شاملة",
         thumbnail: "https://via.placeholder.com/300x200/4f46e5/ffffff?text=القناة+الأولى",
-        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // Big Buck Bunny
         category: "إخبارية"
     },
     {
@@ -13,7 +13,7 @@ const channels = [
         name: "قناة الرياضة",
         description: "أحدث الأخبار الرياضية",
         thumbnail: "https://via.placeholder.com/300x200/ef4444/ffffff?text=قناة+الرياضة",
-        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        streamUrl: "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8", // Sintel
         category: "رياضية"
     },
     {
@@ -21,7 +21,7 @@ const channels = [
         name: "قناة الأطفال",
         description: "برامج تعليمية وترفيهية للأطفال",
         thumbnail: "https://via.placeholder.com/300x200/dc2626/ffffff?text=قناة+الأطفال",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", // Apple HLS Sample
         category: "أطفال"
     },
     {
@@ -29,7 +29,7 @@ const channels = [
         name: "قناة الأفلام",
         description: "أحدث الأفلام العربية والعالمية",
         thumbnail: "https://via.placeholder.com/300x200/7c3aed/ffffff?text=قناة+الأفلام",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // Big Buck Bunny
         category: "أفلام"
     },
     {
@@ -37,7 +37,7 @@ const channels = [
         name: "قناة الطبخ",
         description: "وصفات شهية من المطبخ العربي",
         thumbnail: "https://via.placeholder.com/300x200/ea580c/ffffff?text=قناة+الطبخ",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8", // Sintel
         category: "طبخ"
     },
     {
@@ -45,7 +45,7 @@ const channels = [
         name: "قناة الموسيقى",
         description: "أجمل الأغاني العربية والعالمية",
         thumbnail: "https://via.placeholder.com/300x200/0891b2/ffffff?text=قناة+الموسيقى",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", // Apple HLS Sample
         category: "موسيقى"
     },
     {
@@ -53,7 +53,7 @@ const channels = [
         name: "قناة الوثائقيات",
         description: "أفلام وثائقية متنوعة",
         thumbnail: "https://via.placeholder.com/300x200/16a34a/ffffff?text=قناة+الوثائقيات",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // Big Buck Bunny
         category: "وثائقية"
     },
     {
@@ -61,7 +61,7 @@ const channels = [
         name: "قناة التكنولوجيا",
         description: "أحدث التطورات التقنية",
         thumbnail: "https://via.placeholder.com/300x200/6366f1/ffffff?text=قناة+التكنولوجيا",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8", // Sintel
         category: "تقنية"
     },
     {
@@ -69,7 +69,7 @@ const channels = [
         name: "قناة السفر",
         description: "استكشف العالم معنا",
         thumbnail: "https://via.placeholder.com/300x200/be185d/ffffff?text=قناة+السفر",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", // Apple HLS Sample
         category: "سفر"
     },
     {
@@ -77,7 +77,7 @@ const channels = [
         name: "قناة الصحة",
         description: "نصائح طبية ومعلومات صحية",
         thumbnail: "https://via.placeholder.com/300x200/059669/ffffff?text=قناة+الصحة",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        streamUrl: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // Big Buck Bunny
         category: "صحة"
     }
 ];
