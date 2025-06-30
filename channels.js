@@ -12,8 +12,8 @@ const channels = [
         id: 2,
         name: "قناة الرياضة",
         description: "أحدث الأخبار الرياضية",
-        thumbnail: "https://via.placeholder.com/300x200/059669/ffffff?text=قناة+الرياضة",
-        streamUrl: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        thumbnail: "https://via.placeholder.com/300x200/ef4444/ffffff?text=قناة+الرياضة",
+        streamUrl: "http://mxbfdjh.mlyan.xyz/live/1480303366/NQ4SDHRE/59.ts",
         category: "رياضية"
     },
     {
